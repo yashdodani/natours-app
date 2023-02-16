@@ -51,7 +51,6 @@ exports.signup = catchAsync(async (req, res, next) => {
     role: req.body.role,
   });
   const url = `${req.protocol}://${req.get('host')}/me`;
-  console.log(url);
   await new Email(newUser, url).sendWelcome();
   createSendToken(newUser, 201, res);
 });
@@ -183,7 +182,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   // 2) generate token
   const resetToken = user.createPasswordResetToken();
-  console.log(resetToken);
   await user.save({ validateBeforeSave: false });
 
   // 3) send it to user's email
@@ -224,14 +222,11 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     .update(req.params.token)
     .digest('hex');
 
-  console.log(req.params.token);
-
   const user = await User.findOne({
     passwordResetToken: hashToken,
     passwordResetExpires: { $gt: Date.now() },
   });
 
-  console.log(user);
   // 2) if token not expired, and user exists, set the password
   // 6c7b89d35cc01c8f2c16f5c7b7495b58cab009634ac9065b2476f98b3856f133
 
@@ -253,7 +248,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  console.log('I am in the updatePassword route');
   // 1) get user from collection
 
   const user = await User.findById(req.user._id).select('+password');
@@ -269,9 +263,6 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.password = password;
   user.passwordConfirm = passwordConfirm;
   await user.save();
-
-  console.log('password updated');
-
   // 4) Log user in, send JWT
   createSendToken(user, 200, res);
 });

@@ -88,7 +88,7 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
 reviewSchema.pre(/^findOneAnd/, async function (next) {
   this.review = await this.findOne();
   // this.review is the review that will be updated.
-  console.log(this.review);
+  // console.log(this.review);
   next();
 });
 

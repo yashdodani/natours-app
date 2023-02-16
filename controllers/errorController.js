@@ -9,7 +9,7 @@ const handleValidationErrorDB = (err) => {
 
 const handleDuplicateFieldsDB = (err) => {
   const value = err.errmsg.match(/(["'])(?:(?=(\\?))\2.)*?\1/)[0];
-  console.log(value);
+  // console.log(value);
   const message = `Duplicate field value: ${value}. Please use another value`;
   return new AppError(message, 400);
 };
@@ -27,7 +27,7 @@ const handleJWTExpiredError = () =>
 
 const sendErrorDev = (err, req, res) => {
   // API
-  console.log(req.originalUrl);
+  // console.log(req.originalUrl);
   if (req.originalUrl.startsWith('/api')) {
     console.error('Error....', err);
     return res.status(err.statusCode).json({

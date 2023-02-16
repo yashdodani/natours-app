@@ -10,6 +10,7 @@ const xss = require('xss-clean');
 // const hpp = require('hpp');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -82,6 +83,8 @@ app.use(
 //   console.log('Hello from middleware....');
 //   next();
 // });
+
+app.use(compression());
 
 // Test middleware
 app.use((req, res, next) => {

@@ -40,8 +40,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     session,
   });
 
-  console.log(session.url);
-
   // res.status(200).redirect(session.url);
 });
 
