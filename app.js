@@ -48,7 +48,7 @@ app.use('/api', limiter);
 
 // Route for webhook-checkout
 app.post(
-  '/webhook-checkout',
+  '/webhook',
   express.raw({
     type: 'application/json',
   }),
