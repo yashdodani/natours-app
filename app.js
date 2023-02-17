@@ -7,7 +7,7 @@ const rateLimit = require('express-rate-limit');
 // const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
-// const hpp = require('hpp');
+const hpp = require('hpp');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
@@ -19,6 +19,7 @@ const viewRouter = require('./routes/viewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
+const bookingController = require('./controllers/bookingController');
 
 const app = express();
 
@@ -45,6 +46,15 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
+// Route for webhook-checkout
+app.post(
+  '/webhook-checkout',
+  express.raw({
+    type: 'application/json',
+  }),
+  bookingController.webhookCheckout
+);
+
 // Body parser,reading data from body into req.body
 app.use(express.json({ limit: '10kb' })); // to load the data in req
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
@@ -65,19 +75,21 @@ app.use(
   })
 );
 
+app.options('*', cors());
+
 // Prevent parameter pollution
-// app.use(
-//   hpp({
-//     whitelist: [
-//       'duration',
-//       'ratingsQuantity',
-//       'ratingsAverage',
-//       'maxGroupSize',
-//       'difficulty',
-//       'price',
-//     ],
-//   })
-// );
+app.use(
+  hpp({
+    whitelist: [
+      'duration',
+      'ratingsQuantity',
+      'ratingsAverage',
+      'maxGroupSize',
+      'difficulty',
+      'price',
+    ],
+  })
+);
 
 // Serving static files
 // app.use(express.static(`${__dirname}/public`));
