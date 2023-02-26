@@ -19,7 +19,7 @@ const createSendToken = (user, statusCode, req, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    secure: req.secure || req.headers('x-forwaded-proto') === 'https', // cookie will only be sent when https
+    // secure: req.secure || req.headers('x-forwaded-proto') === 'https', // cookie will only be sent when https
     httpOnly: true, // cookie cannot be manipulated
   });
 
