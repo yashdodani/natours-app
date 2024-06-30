@@ -13,7 +13,7 @@
 
 ## Usage
 
-**Project URL:** [Click here](https://github.com/yashdodani)
+**Project URL:** [Click here](https://yash-natours-app.onrender.com)
 (It may take 1-2 mins to build)
 
 **Login:**
